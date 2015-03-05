@@ -1,13 +1,13 @@
 minecraft-fig
 =============
 
-Example of a Minecraft server, map generator, and map web server orchestrated with Fig.
+Example of a Minecraft server, map generator, and map web server orchestrated with docker-compose (formerly fig).
 Directly inspired by Michael Crosby's *[Advanced Docker Volumes](http://crosbymichael.com/advanced-docker-volumes.html)* blog post.
 
 Usage:
 
-    $ fig up -d map game    # once
-    # fig up -d overviewer  # periodically
+    $ docker-compose up -d map game    # once
+    # docker-compose up -d overviewer  # periodically
 
 > Run the `overviewer` container periodically (perhaps with a cron job) to ensure that the map is kept up to date.
 
