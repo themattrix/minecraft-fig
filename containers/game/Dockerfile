@@ -30,7 +30,8 @@ WORKDIR /minecraft
 
 ENV MINECRAFT_VERSION 1.8.3
 
-ADD https://s3.amazonaws.com/Minecraft.Download/versions/$MINECRAFT_VERSION/minecraft_server.$MINECRAFT_VERSION.jar /minecraft/minecraft.jar
-RUN chmod +x /minecraft/minecraft.jar
+RUN wget -O /minecraft/minecraft.jar \
+        https://s3.amazonaws.com/Minecraft.Download/versions/$MINECRAFT_VERSION/minecraft_server.$MINECRAFT_VERSION.jar \
+    && chmod +x /minecraft/minecraft.jar
 
 CMD ["bash", "run.sh"]
