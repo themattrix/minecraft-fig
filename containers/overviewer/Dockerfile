@@ -17,7 +17,7 @@ RUN apt-get update \
 
 # Download the normal Minecraft jar, since Overviewer uses the textures from it
 ENV HOME /
-ENV MINECRAFT_VERSION 1.8.1
+ENV MINECRAFT_VERSION 1.8.3
 ENV MINECRAFT_DL_URL  https://s3.amazonaws.com/Minecraft.Download/versions
 ENV MINECRAFT_JAR_URL ${MINECRAFT_DL_URL}/${MINECRAFT_VERSION}/${MINECRAFT_VERSION}.jar
 ENV MINECRAFT_JAR_DST /.minecraft/versions/${MINECRAFT_VERSION}/${MINECRAFT_VERSION}.jar
