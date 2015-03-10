@@ -4,11 +4,11 @@ game:
   - volumes/game/settings:/minecraft/settings
   - volumes/game/world:/minecraft/world
   ports:
-  - "25565:25565"
+  - "127.0.0.1:25565:25565"
 map:
   build: containers/map
   ports:
-  - "25566:25566"
+  - "127.0.0.1:25566:25566"
 overviewer:
   build: containers/overviewer
   volumes_from:
