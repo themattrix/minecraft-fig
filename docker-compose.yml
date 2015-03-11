@@ -14,3 +14,8 @@ overviewer:
   volumes_from:
   - game
   - map
+mapcrafter:
+  build: containers/mapcrafter
+  volumes_from:
+  - game
+  - map
