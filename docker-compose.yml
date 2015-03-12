@@ -9,11 +9,6 @@ map:
   build: containers/map
   ports:
   - "25566:25566"
-overviewer:
-  build: containers/overviewer
-  volumes_from:
-  - game
-  - map
 mapcrafter:
   build: containers/mapcrafter
   volumes_from:
