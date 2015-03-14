@@ -8,9 +8,10 @@ game:
 map:
   build: containers/map
   ports:
-  - "25566:25566"
+  - "80:25566"
 mapcrafter:
   build: containers/mapcrafter
+  volumes:
+  - volumes/game/world:/minecraft/world:ro
   volumes_from:
-  - game
   - map
