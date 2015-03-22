@@ -15,3 +15,4 @@ mapcrafter:
   - volumes/game/world:/minecraft/world:ro
   volumes_from:
   - map
+  cpu_shares: 512

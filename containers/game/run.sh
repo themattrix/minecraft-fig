@@ -11,7 +11,7 @@ set -e
 set -o pipefail
 
 function minecraft() {
-    java -Xmx1024M -Xms1024M -jar minecraft.jar nogui
+    java -Xmx1536M -Xms1536M -jar minecraft.jar nogui
 }
 
 # Copy all settings into the Minecraft folder
