@@ -1,7 +1,6 @@
 game:
   build: containers/game
   volumes:
-  - volumes/game/settings:/minecraft/settings
   - volumes/game/world:/minecraft/world
   ports:
   - "25565:25565"

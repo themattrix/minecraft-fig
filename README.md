@@ -6,9 +6,9 @@ Directly inspired by Michael Crosby's *[Advanced Docker Volumes](http://crosbymi
 
 Usage:
 
-    $ docker-compose up -d map game    # once
-    # docker-compose up -d overviewer  # periodically
+    $ docker-compose up -d map game   # once
+    # docker-compose up -d mapcrafter # periodically
 
-> Run the `overviewer` container periodically (perhaps with a cron job) to ensure that the map is kept up to date.
+> Run the `mapcrafter` container periodically (perhaps with a cron job) to ensure that the map is kept up to date.
 
 The Minecraft server is hosted on port 25565, and the map web server on 25566.
