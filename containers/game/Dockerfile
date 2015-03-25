@@ -17,23 +17,12 @@ RUN git clone https://github.com/gsand/mark2.git \
     && ln -s $PWD/mark2/mark2 /usr/bin/mark2
 
 RUN update-locale LANG=en_US.UTF-8 LC_MESSAGES=en_US.UTF-8
-
 RUN mkdir /minecraft
 
-# Build Spigot
-RUN mkdir /build && ( \
-       cd /build \
-       && wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar \
-       && HOME=$PWD java -jar BuildTools.jar \
-       && cp Spigot/Spigot-Server/target/spigot-*.jar /minecraft/spigot.jar \
-    )  && rm -rf /build
+VOLUME /minecraft/volumes
+EXPOSE 25565
 
-VOLUME /minecraft/world
 WORKDIR /minecraft
-ADD . /minecraft/
-
-RUN mkdir /etc/mark2 \
-    && mv /minecraft/settings/* /minecraft/ \
-    && mv /minecraft/mark2.properties /etc/mark2/mark2.properties
+ADD run.sh /minecraft/
 
 CMD ["/sbin/my_init", "--skip-startup-files", "--quiet", "--", "bash", "run.sh"]

@@ -1,7 +1,7 @@
 game:
   build: containers/game
   volumes:
-  - volumes/game/world:/minecraft/world
+  - volumes/game:/minecraft/volumes
   ports:
   - "25565:25565"
 map:
@@ -11,7 +11,7 @@ map:
 mapcrafter:
   build: containers/mapcrafter
   volumes:
-  - volumes/game/world:/minecraft/world:ro
+  - volumes/game/world:/world:ro
   volumes_from:
   - map
   cpu_shares: 512
