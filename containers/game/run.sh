@@ -42,15 +42,15 @@ function ensure_spigot() {
 }
 
 function main() {
-    # Create expected volume subdirectories
-    mkdir -p volumes/{world,settings-default,settings-custom,spigot}
+    # Ensure expected volume subdirectories exist.
+    mkdir -p volumes/{world,world_nether,world_the_end,settings-default,settings-custom,spigot}
 
-    # Copy default settings
+    # Copy default settings.
     if ls volumes/settings-default/* &> /dev/null; then
         cp -f volumes/settings-default/* .
     fi
 
-    # Symlink custom settings, stomping defaults
+    # Symlink custom settings, stomping defaults.
     if ls volumes/settings-custom/* &> /dev/null; then
         ln -sf volumes/settings-custom/* .
     fi
@@ -58,8 +58,8 @@ function main() {
     # Copy the mark2.properties files to the expected location.
     mkdir -p /etc/mark2 && cp -L mark2.properties /etc/mark2/mark2.properties
 
-    # Make the world data available to Minecraft
-    ln -s volumes/world world
+    # Make the world data available to Minecraft.
+    ln -s volumes/world* .
 
     # Accept the EULA so that the server runs.
     echo "eula=true" > eula.txt
