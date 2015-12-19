@@ -6,7 +6,7 @@ RUN rm -rf /etc/service/cron /etc/service/sshd
 # Install mark2 dependencies
 RUN apt-get update \
     && apt-get -y install \
-        git libssl-dev python-dev python-feedparser \
+        git gawk libssl-dev python-dev python-feedparser \
         python-psutil python-twisted-core python-twisted-mail \
         python-twisted-web python-twisted-words python-urwid \
     && apt-get clean \

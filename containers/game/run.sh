@@ -41,6 +41,19 @@ function ensure_spigot() {
     cp "${SPIGOT_SRC}" "${SPIGOT_DST}"
 }
 
+function get_desired_java_ram_limit_in_mb() {
+    # The desired RAM limit is half of the total RAM rounded up to the next power of two.
+    grep '^MemTotal:' /proc/meminfo | awk '
+        function ceil(valor) {
+            return valor == int(valor) ? valor : int(valor) + 1
+        }
+        function next_highest_power_of_2(i) {
+            return 2 ** ceil(log(i / 2048) / log(2))
+        } {
+            print next_highest_power_of_2($2)
+        }'
+}
+
 function main() {
     # Ensure expected volume subdirectories exist.
     mkdir -p volumes/{world,world_nether,world_the_end,settings-default,settings-custom,spigot}
@@ -55,8 +68,16 @@ function main() {
         ln -sf volumes/settings-custom/* .
     fi
 
-    # Copy the mark2.properties files to the expected location.
-    mkdir -p /etc/mark2 && cp -L mark2.properties /etc/mark2/mark2.properties
+    # mark2 complains if this file isn't here, even though the local config is
+    # overriding it.
+    mkdir /etc/mark2 && touch /etc/mark2/mark2.properties
+
+    # Give Java half of the system RAM.
+    local desired_java_ram_limit="$(get_desired_java_ram_limit_in_mb)M"
+    sed -r -i \
+        -e "s/^(java.cli.X.ms=).*/\\1${desired_java_ram_limit}/" \
+        -e "s/^(java.cli.X.mx=).*/\\1${desired_java_ram_limit}/" \
+        mark2.properties
 
     # Make the world data available to Minecraft.
     ln -s volumes/world* .
