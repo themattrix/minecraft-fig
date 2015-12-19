@@ -1,17 +1,17 @@
 game:
-  build: containers/game
+  image: themattrix/minecraft-game-prereqs  # alternately, "build: containers/game"
   volumes:
-  - ./volumes/game:/minecraft/volumes
+  - "./volumes/game:/minecraft/volumes"
   ports:
   - "25565:25565"
 map:
-  build: containers/map
+  image: themattrix/serve-www-over-http     # alternately, "build: containers/map"
   ports:
   - "80:25566"
 mapcrafter:
-  build: containers/mapcrafter
+  image: themattrix/mapcrafter              # alternately, "build: containers/mapcrafter"
   volumes:
-  - ./volumes/game/world:/world:ro
+  - "./volumes/game/world:/world:ro"
   volumes_from:
   - map
   cpu_shares: 512
