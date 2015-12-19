@@ -1,5 +1,10 @@
 FROM ubuntu:14.04
 
+# proper init
+ADD https://github.com/krallin/tini/releases/download/v0.8.4/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV HOME /
 
