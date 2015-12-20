@@ -6,3 +6,5 @@ RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
 VOLUME /www
+
+CMD ["/usr/sbin/run_uhttpd", "-f", "-p", "80", "-h", "/www"]
