@@ -7,7 +7,7 @@ Directly inspired by Michael Crosby's *[Advanced Docker Volumes](http://crosbymi
 Usage:
 
     $ docker-compose up -d map game   # once
-    # docker-compose up -d mapcrafter # periodically
+    $ docker-compose up -d mapcrafter # periodically
 
 > Run the `mapcrafter` container periodically (perhaps in a loop or with a cron job) to ensure that the map is kept up to date.
 
