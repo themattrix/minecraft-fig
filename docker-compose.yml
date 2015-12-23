@@ -1,3 +1,7 @@
+#
+# main services
+#
+
 game:
   image: themattrix/minecraft-game-prereqs  # alternately, "build: containers/game"
   volumes:
@@ -18,6 +22,10 @@ mapcrafter:
   - map
   cpu_shares: 512
 
+#
+# sync world data/settings
+#
+
 load_world_data_from_tar:
   build: containers/tar-load-world
   volumes:
@@ -25,5 +33,15 @@ load_world_data_from_tar:
 
 save_world_data_to_tar:
   build: containers/tar-save-world
+  volumes:
+  - "./volumes:/volumes:ro"
+
+load_world_data_from_dropbox:
+  build: containers/dropbox-load-world
+  volumes:
+  - "./volumes:/volumes"
+
+save_world_data_to_dropbox:
+  build: containers/dropbox-save-world
   volumes:
   - "./volumes:/volumes:ro"
