@@ -20,3 +20,20 @@ The default settings are stored in `volumes/game/settings-default/`. You can eit
 settings files in `volumes/game/settings-custom/`.
 
 > I like to keep my custom settings in a private repo, which I can then clone to `settings-custom`.
+
+
+## Sync with Dropbox
+
+Two services are provided to sync your world data with Dropbox. But first some initial setup is required:
+
+    $ curl "https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh" -o dropbox_uploader.sh
+    $ bash dropbox_uploader.sh
+    # ...follow the configuration steps...
+    $ mv ~/.dropbox_uploader volumes/dropbox/
+    $ rm dropbox_uploader.sh  # no longer required!
+
+Now it's as simple as:
+
+    $ docker-compose run --rm load_world_data_from_dropbox
+    # - or -
+    $ docker-compose run --rm save_world_data_to_dropbox
