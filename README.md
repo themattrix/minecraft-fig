@@ -26,7 +26,8 @@ settings files in `volumes/game/settings-custom/`.
 
 Two services are provided to sync your world data with Dropbox. But first some initial setup is required:
 
-    $ curl "https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh" -o dropbox_uploader.sh
+    $ curl -o dropbox_uploader.sh \
+           "https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh"
     $ bash dropbox_uploader.sh
     # ...follow the configuration steps...
     $ mv ~/.dropbox_uploader volumes/dropbox/
