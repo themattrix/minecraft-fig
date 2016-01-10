@@ -9,7 +9,7 @@
 set -e -o pipefail
 
 check_prereqs() {
-    if [ ! -f "volumes/game/spigot/spigot.jar" ]; then
+    if [ ! -f "volumes/spigot/spigot.jar" ]; then
         echo '[ERROR] Missing spigot.jar - did you run:' 1>&2
         echo '[ERROR] $ docker-compose run --rm -e UID=$(id -u) -e GID=$(id -g) build_spigot' 1>&2
         return 1
