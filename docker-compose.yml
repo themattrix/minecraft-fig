@@ -23,6 +23,15 @@ mapcrafter:
   cpu_shares: 512
 
 #
+# build services
+#
+
+build_spigot:
+  image: themattrix/build-spigot                    # alternately, "build: containers/build-spigot"
+  volumes:
+  - "./volumes/game/spigot:/output"
+
+#
 # sync world data/settings
 #
 

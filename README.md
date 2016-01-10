@@ -1,13 +1,20 @@
 minecraft-fig
 =============
 
-Example of a Minecraft server, map generator, and map web server orchestrated with docker-compose (formerly fig).
+Minecraft server, map generator, and map web server orchestrated with docker-compose (formerly fig).
 Directly inspired by Michael Crosby's *[Advanced Docker Volumes](http://crosbymichael.com/advanced-docker-volumes.html)* blog post.
 
-Usage:
+First-time usage:
 
-    $ docker-compose up -d map game   # once
-    $ docker-compose up -d mapcrafter # periodically
+    docker-compose run --rm -e UID=$(id -u) -e GID=$(id -g) build_spigot
+
+> The `UID` and `GID` are optional. If specified, the output `spigot.jar` will be owned by the given user and group.
+
+
+Normal usage:
+
+    docker-compose up -d map game    # once
+    docker-compose up -d mapcrafter  # periodically
 
 > Run the `mapcrafter` container periodically (perhaps in a loop or with a cron job) to ensure that the map is kept up to date.
 

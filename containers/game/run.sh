@@ -6,42 +6,17 @@
 # Assumption: current working directory is /minecraft
 #
 
-set -e
-set -o pipefail
+set -e -o pipefail
 
-readonly SPIGOT_BUILDTOOLS_URL="https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar"
-readonly SPIGOT_SRC="/minecraft/volumes/spigot/spigot.jar"
-readonly SPIGOT_DST="/minecraft/spigot.jar"
-
-function in_temp_dir() {
-    local temp_dir=$(mktemp -d)
-
-    function cleanup() {
-        cd && rm -rf "${temp_dir}"
-    }
-
-    (trap cleanup EXIT; cd "${temp_dir}"; "$@")
-}
-
-function spigot_exists() {
-    [ -f "${SPIGOT_SRC}" ]
-}
-
-function build_spigot() {
-    wget "${SPIGOT_BUILDTOOLS_URL}"
-    HOME=$PWD java -jar BuildTools.jar
-    mv Spigot/Spigot-Server/target/spigot-*.jar "${SPIGOT_SRC}"
-}
-
-function ensure_spigot() {
-    if ! spigot_exists; then
-        in_temp_dir build_spigot
+check_prereqs() {
+    if [ ! -f "volumes/game/spigot/spigot.jar" ]; then
+        echo '[ERROR] Missing spigot.jar - did you run:' 1>&2
+        echo '[ERROR] $ docker-compose run --rm -e UID=$(id -u) -e GID=$(id -g) build_spigot' 1>&2
+        return 1
     fi
-
-    cp "${SPIGOT_SRC}" "${SPIGOT_DST}"
 }
 
-function get_desired_java_ram_limit_in_mb() {
+get_desired_java_ram_limit_in_mb() {
     # The desired RAM limit is half of the total RAM rounded up to the next power of two.
     grep '^MemTotal:' /proc/meminfo | awk '
         function ceil(valor) {
@@ -54,7 +29,10 @@ function get_desired_java_ram_limit_in_mb() {
         }'
 }
 
-function main() {
+main() {
+    # Ensure prereqs are satisfied.
+    check_prereqs
+
     # Ensure expected volume subdirectories exist.
     mkdir -p volumes/{world,world_nether,world_the_end,settings-default,settings-custom,spigot}
 
@@ -85,9 +63,6 @@ function main() {
     # Accept the EULA so that the server runs.
     echo "eula=true" > eula.txt
 
-    # Build and/or copy spigot to /minecraft/spigot.jar
-    ensure_spigot
-
     # Start the Minecraft server.
     mark2 start
 
@@ -100,4 +75,4 @@ function main() {
     mark2 stop &> /dev/null || true
 }
 
-main "$@"
+main
