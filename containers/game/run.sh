@@ -8,6 +8,9 @@
 
 set -e -o pipefail
 
+readonly SPIGOT_SRC="/minecraft/volumes/spigot/spigot.jar"
+readonly SPIGOT_DST="/minecraft/spigot.jar"
+
 check_prereqs() {
     if [ ! -f "volumes/spigot/spigot.jar" ]; then
         echo '[ERROR] Missing spigot.jar - did you run:' 1>&2
@@ -62,6 +65,9 @@ main() {
 
     # Accept the EULA so that the server runs.
     echo "eula=true" > eula.txt
+
+    # Copy Spigot to the expected location.
+    cp "${SPIGOT_SRC}" "${SPIGOT_DST}"
 
     # Start the Minecraft server.
     mark2 start
