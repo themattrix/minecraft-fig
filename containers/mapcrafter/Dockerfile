@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 
 # proper init
-ADD https://github.com/krallin/tini/releases/download/v0.8.4/tini /tini
+ADD https://github.com/krallin/tini/releases/download/v0.9.0/tini /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
