@@ -1,0 +1,63 @@
+version: '2'
+
+#
+# main services
+#
+
+services:
+  game:
+    extends:
+      file: docker-compose.yml
+      service: game
+    image: themattrix/minecraft-game-prereqs
+
+  map:
+    extends:
+      file: docker-compose.yml
+      service: map
+    image: themattrix/serve-www-over-http
+
+  mapcrafter:
+    image: themattrix/mapcrafter
+    volumes:
+    - "./volumes/game/world:/world:ro"
+    volumes_from:
+    - map
+    cpu_shares: 512
+
+  #
+  # build services
+  #
+
+  # docker-compose -f docker-compose.images.yml run --rm -e "UID=$(id -u)" -e "GID=$(id -g)" build_spigot
+  build_spigot:
+    extends:
+      file: docker-compose.yml
+      service: build_spigot
+    image: themattrix/build-spigot
+
+  #
+  # sync world data/settings
+  #
+
+  load_world_data_from_tar:
+    extends:
+      file: docker-compose.yml
+      service: load_world_data_from_tar
+
+  save_world_data_to_tar:
+    extends:
+      file: docker-compose.yml
+      service: save_world_data_to_tar
+
+  load_world_data_from_dropbox:
+    extends:
+      file: docker-compose.yml
+      service: load_world_data_from_dropbox
+    image: themattrix/dropbox-load-minecraft-world
+
+  save_world_data_to_dropbox:
+    extends:
+      file: docker-compose.yml
+      service: save_world_data_to_dropbox
+    image: themattrix/dropbox-save-minecraft-world

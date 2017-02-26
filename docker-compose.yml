@@ -1,56 +1,60 @@
+version: '2'
+
 #
 # main services
 #
 
-game:
-  image: themattrix/minecraft-game-prereqs          # alternately, "build: containers/game"
-  volumes:
-  - "./volumes/game:/minecraft/volumes"
-  ports:
-  - "25565:25565"
+services:
+  game:
+    build: containers/game
+    volumes:
+    - "./volumes/game:/minecraft/volumes"
+    ports:
+    - "25565:25565"
 
-map:
-  image: themattrix/serve-www-over-http             # alternately, "build: containers/map"
-  ports:
-  - "80:80"
+  map:
+    build: containers/map
+    ports:
+    - "80:80"
 
-mapcrafter:
-  image: themattrix/mapcrafter                      # alternately, "build: containers/mapcrafter"
-  volumes:
-  - "./volumes/game/world:/world:ro"
-  volumes_from:
-  - map
-  cpu_shares: 512
+  mapcrafter:
+    build: containers/mapcrafter
+    volumes:
+    - "./volumes/game/world:/world:ro"
+    volumes_from:
+    - map
+    cpu_shares: 512
 
-#
-# build services
-#
+  #
+  # build services
+  #
 
-build_spigot:
-  image: themattrix/build-spigot                    # alternately, "build: containers/build-spigot"
-  volumes:
-  - "./volumes/game/spigot:/output"
+  # docker-compose run --rm -e "UID=$(id -u)" -e "GID=$(id -g)" build_spigot
+  build_spigot:
+    build: containers/build-spigot
+    volumes:
+    - "./volumes/game/spigot:/output"
 
-#
-# sync world data/settings
-#
+  #
+  # sync world data/settings
+  #
 
-load_world_data_from_tar:
-  build: containers/tar-load-world
-  volumes:
-  - "./volumes:/volumes"
+  load_world_data_from_tar:
+    build: containers/tar-load-world
+    volumes:
+    - "./volumes:/volumes"
 
-save_world_data_to_tar:
-  build: containers/tar-save-world
-  volumes:
-  - "./volumes:/volumes:ro"
+  save_world_data_to_tar:
+    build: containers/tar-save-world
+    volumes:
+    - "./volumes:/volumes:ro"
 
-load_world_data_from_dropbox:
-  image: themattrix/dropbox-load-minecraft-world    # alternatively, "build: containers/dropbox-load-world"
-  volumes:
-  - "./volumes:/volumes"
+  load_world_data_from_dropbox:
+    build: containers/dropbox-load-world
+    volumes:
+    - "./volumes:/volumes"
 
-save_world_data_to_dropbox:
-  image: themattrix/dropbox-save-minecraft-world    # alternatively, "build: containers/dropbox-save-world"
-  volumes:
-  - "./volumes:/volumes:ro"
+  save_world_data_to_dropbox:
+    build: containers/dropbox-save-world
+    volumes:
+    - "./volumes:/volumes:ro"

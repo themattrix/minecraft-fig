@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 # proper init
-ADD https://github.com/krallin/tini/releases/download/v0.9.0/tini-static /tini
+ADD https://github.com/krallin/tini/releases/download/v0.14.0/tini-static /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
